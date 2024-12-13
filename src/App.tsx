@@ -14,7 +14,7 @@ function App() {
 
   let currentTasks = tasks;
   if (filter === "active") {
-    currentTasks = currentTasks.filter((t) => t.isDone === true);
+    currentTasks = currentTasks.filter((t) => t.isDone === false);
   }
   if (filter === "completed") {
     currentTasks = currentTasks.filter((t) => t.isDone === true);
@@ -29,6 +29,11 @@ function App() {
     setTask(filteredTask);
   }
 
+function addTask(title: string) {
+  let task = { id: tasks.length + 1, title: title, isDone: false };
+  setTask([...tasks, task]);
+}
+
   return (
     <div className='App'>
       <TodoList
@@ -36,6 +41,7 @@ function App() {
         tasks={currentTasks}
         removeTask={removeTask}
         changeFilter={changeFilter}
+        addTask={addTask}
       />
     </div>
   );
