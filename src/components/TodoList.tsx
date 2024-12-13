@@ -27,7 +27,7 @@ export function TodoList(props: PropsType) {
               <span>{t.title}</span>
               <button onClick={() => { props.removeTask(t.id) }}>x</button>
             </li>
-          );
+          );  
         })}
       </ul>
       <div>
