@@ -3,7 +3,7 @@ import './App.css';
 import { TodoList, TaskType } from './components/TodoList';
 import { v1 } from 'uuid';
 
-type FilterTaskValues = 'all' | 'active' | 'completed';
+export type FilterTaskValues = 'all' | 'active' | 'completed';
 
 function App() {
   let [tasks, setTask] = useState<Array<TaskType>>([
@@ -38,7 +38,7 @@ function App() {
   function ChangeStatus(taskId: string, isDone: boolean) {
     const updateDone = tasks.map((task) => {
       if (task.id === taskId) {
-        return { ...task, idDone: isDone };
+        return { ...task, isDone: isDone };
       }
       return task;
     });
@@ -54,6 +54,7 @@ function App() {
         changeFilter={changeFilter}
         addTask={addTask}
         ChangeStatus={ChangeStatus}
+        filter={filter}
       />
     </div>
   );

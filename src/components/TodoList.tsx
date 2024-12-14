@@ -1,4 +1,6 @@
 import { ChangeEvent, useState, KeyboardEvent } from 'react';
+import './TodoList.css';
+import { FilterTaskValues } from '../App';
 
 export type TaskType = {
   id: string;
@@ -10,16 +12,19 @@ type PropsType = {
   title: string;
   tasks: Array<TaskType>;
   removeTask: (taskId: string) => void;
-  changeFilter: (value: 'all' | 'active' | 'completed') => void;
+  changeFilter: (value: FilterTaskValues) => void;
   addTask: (title: string) => void;
   ChangeStatus: (taskId: string, isDone: boolean) => void;
+  filter: FilterTaskValues;
 };
 
 export function TodoList(props: PropsType) {
   let [taskTitle, setTaskTitle] = useState<string>('');
+  let [error, setError] = useState<string | null>('');
 
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setTaskTitle(e.target.value);
+    setError('');
   };
 
   const onChangeKeyHandler = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -29,12 +34,12 @@ export function TodoList(props: PropsType) {
     }
   };
 
-  const onButtonClickHandler = () => {
-    if (taskTitle === '') {
-      alert('Please input you text');
-    } else {
+  const addPost = () => {
+    if (taskTitle.trim() !== '') {
       props.addTask(taskTitle);
       setTaskTitle('');
+    } else {
+      setError('Enter your text please!');
     }
   };
 
@@ -52,8 +57,10 @@ export function TodoList(props: PropsType) {
           value={taskTitle}
           onChange={onChangeHandler}
           onKeyDown={onChangeKeyHandler}
+          className={error ? 'error' : ''}
         />
-        <button onClick={onButtonClickHandler}>Send</button>
+        <p className='error-message'>{error}</p>
+        <button onClick={addPost}>Send</button>
       </div>
       <ul>
         {props.tasks.map((t) => {
@@ -66,9 +73,8 @@ export function TodoList(props: PropsType) {
           };
 
           return (
-            <li>
+            <li key={t.id} className={t.isDone ? 'is-done' : ''}>
               <input
-                key={t.id}
                 type='checkbox'
                 checked={t.isDone}
                 onChange={ChangeStatus}
@@ -80,9 +86,24 @@ export function TodoList(props: PropsType) {
         })}
       </ul>
       <div>
-        <button onClick={onAllClickHandler}>All</button>
-        <button onClick={onActiveClickHandler}>Active</button>
-        <button onClick={onComplitedClickHandler}>Complited</button>
+        <button
+          className={props.filter === 'all' ? 'active-title' : ''}
+          onClick={onAllClickHandler}
+        >
+          All
+        </button>
+        <button
+          className={props.filter === 'active' ? 'active-title' : ''}
+          onClick={onActiveClickHandler}
+        >
+          Active
+        </button>
+        <button
+          className={props.filter === 'completed' ? 'active-title' : ''}
+          onClick={onComplitedClickHandler}
+        >
+          Complited
+        </button>
       </div>
     </div>
   );

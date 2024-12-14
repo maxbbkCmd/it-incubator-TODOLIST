@@ -1,0 +1,16 @@
+.error {
+  border: red 1px solid;
+}
+
+.error-message {
+  color: red;
+  margin: 0;
+}
+
+.active-title {
+  background-color: aquamarine;
+}
+
+.is-done {
+  opacity: 0.5;
+}
