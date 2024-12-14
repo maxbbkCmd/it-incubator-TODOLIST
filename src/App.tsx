@@ -1,22 +1,23 @@
-import { useState } from "react";
-import "./App.css";
-import { TodoList, TaskType } from "./components/TodoList";
+import { useState } from 'react';
+import './App.css';
+import { TodoList, TaskType } from './components/TodoList';
+import { v1 } from 'uuid';
 
-type FilterTaskValues = "all" | "active" | "completed";
+type FilterTaskValues = 'all' | 'active' | 'completed';
 
 function App() {
   let [tasks, setTask] = useState<Array<TaskType>>([
-    { id: 1, title: "CSS", isDone: true },
-    { id: 2, title: "html", isDone: true },
-    { id: 3, title: "React", isDone: false },
+    { id: v1(), title: 'CSS', isDone: true },
+    { id: v1(), title: 'html', isDone: true },
+    { id: v1(), title: 'React', isDone: false },
   ]);
-  let [filter, setFilter] = useState<FilterTaskValues>("all");
+  let [filter, setFilter] = useState<FilterTaskValues>('all');
 
   let currentTasks = tasks;
-  if (filter === "active") {
+  if (filter === 'active') {
     currentTasks = currentTasks.filter((t) => t.isDone === false);
   }
-  if (filter === "completed") {
+  if (filter === 'completed') {
     currentTasks = currentTasks.filter((t) => t.isDone === true);
   }
 
@@ -24,16 +25,26 @@ function App() {
     setFilter(value);
   }
 
-  function removeTask(id: number) {
+  function removeTask(id: string) {
     let filteredTask = tasks.filter((t) => t.id !== id);
     setTask(filteredTask);
   }
 
-function addTask(title: string) {
-  let task = { id: tasks.length + 1, title: title, isDone: false };
-  setTask([...tasks, task]);
-}
+  function addTask(title: string) {
+    let task = { id: tasks.length + 1, title: title, isDone: false };
+    setTask([...tasks, task] as Array<TaskType>);
+  }
 
+  function ChangeStatus(taskId: string, isDone: boolean) {
+    const updateDone = tasks.map((task) => {
+      if (task.id === taskId) {
+        return { ...task, idDone: isDone };
+      }
+      return task;
+    });
+    setTask(updateDone);
+  }
+  
   return (
     <div className='App'>
       <TodoList
@@ -42,6 +53,7 @@ function addTask(title: string) {
         removeTask={removeTask}
         changeFilter={changeFilter}
         addTask={addTask}
+        ChangeStatus={ChangeStatus}
       />
     </div>
   );
