@@ -55,22 +55,23 @@ export function TodoList(props: PropsType) {
       <h3>
         <EditableSpan
           title={props.title}
-          onChange={handleChangeTodoListTitle}
-        />
+          onChange={handleChangeTodoListTitle} />
+
         <IconButton onClick={handRemoveTodoList} style={{ marginLeft: '15px' }}>
           <DeleteIcon />
         </IconButton>
       </h3>
+
       <AddItemForm addItem={addTask} />
+      
       <ul>
         {props.tasks.map((t) => {
-          // вызов функции из пропса удаление таски по id
-          const handleRemove = () => {
+          const handleRemove = () => { // вызов функции из пропса удаление таски по id
             props.removeTask(t.id, props.id);
           };
 
-          // вызов функции из пропса изменения чекета
-          const handleChangeStatus = (e: ChangeEvent<HTMLInputElement>) => {
+          
+          const handleChangeStatus = (e: ChangeEvent<HTMLInputElement>) => { // вызов функции из пропса изменения чекета
             props.ChangeStatus(t.id, e.currentTarget.checked, props.id);
           };
 
@@ -80,12 +81,12 @@ export function TodoList(props: PropsType) {
 
           return (
             <li key={t.id} className={t.isDone ? 'is-done' : ''}>
-              <input
-                type='checkbox'
+              <Checkbox
                 checked={t.isDone}
                 onChange={handleChangeStatus} />
+
               <EditableSpan title={t.title} onChange={handleChangeTitle} />
-              <IconButton onClick={handleRemove} style={{ marginLeft: '15px' }}>
+              <IconButton onClick={handleRemove} style={{ marginLeft: '5px' }}>
                 <DeleteIcon />
               </IconButton>
             </li>
@@ -95,7 +96,8 @@ export function TodoList(props: PropsType) {
       <div>
         <Button
           variant={props.filter === 'all' ? 'contained' : 'text'}
-          onClick={handleAllClick}>All
+          onClick={handleAllClick}
+          style={{margin:'5px'}}>All
         </Button>
 
         <Button
@@ -107,7 +109,8 @@ export function TodoList(props: PropsType) {
         <Button
           variant={props.filter === 'all' ? 'contained' : 'text'}
           onClick={handleCompletedClick}
-          color={'secondary'}>Completed
+          color={'secondary'}
+          style={{margin:'5px'}}>Completed
         </Button>
       </div>
     </div>

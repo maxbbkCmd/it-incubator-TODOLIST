@@ -1,6 +1,8 @@
 import './AddItemForm.css';
 import { useState, ChangeEvent, KeyboardEvent } from 'react';
-import Button from '@mui/material/Button';
+import { IconButton, TextField } from "@mui/material";
+import { AddCircle } from "@mui/icons-material";
+
 
 type AddItemPropsType = {
   addItem: (title: string) => void;
@@ -35,21 +37,23 @@ function AddItemForm(props: AddItemPropsType) {
 
   return (
     <div className='input'>
-      <input
+
+      <TextField
         value={title}
         onChange={handleInputChange}
         onKeyDown={handleKeyInputChange}
         className={error ? 'error' : ''}
-      />
-
+        variant="outlined"
+        size="small"
+        label="Enter you text"
+        helperText={error} />
       <p className='error-message'>{error}</p>
-      <Button
-        variant='contained'
+
+      <IconButton
         onClick={handleAddTask}
-        style={{ marginLeft: '15px' }}
-      >
-        +
-      </Button>
+        style={{ marginLeft: '5px' }}>
+        <AddCircle />
+      </IconButton>
     </div>
   );
 }
