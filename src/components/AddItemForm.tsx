@@ -1,5 +1,6 @@
-
-import { useState, ChangeEvent, KeyboardEvent } from "react";
+import './AddItemForm.css';
+import { useState, ChangeEvent, KeyboardEvent } from 'react';
+import Button from '@mui/material/Button';
 
 type AddItemPropsType = {
   addItem: (title: string) => void;
@@ -33,15 +34,22 @@ function AddItemForm(props: AddItemPropsType) {
   };
 
   return (
-    <div>
+    <div className='input'>
       <input
         value={title}
         onChange={handleInputChange}
         onKeyDown={handleKeyInputChange}
         className={error ? 'error' : ''}
       />
+
       <p className='error-message'>{error}</p>
-      <button onClick={handleAddTask}>Send</button>
+      <Button
+        variant='contained'
+        onClick={handleAddTask}
+        style={{ marginLeft: '15px' }}
+      >
+        +
+      </Button>
     </div>
   );
 }
